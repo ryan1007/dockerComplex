@@ -1,0 +1,23 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t ryan/react-test -f ./clent/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=True ryan/react-test npm test
+
+after_success:
+  - docker build -t ryan/multi-client ./client
+  - docker build -t ryan/multi-nginx ./nginx
+  - docker build -t ryan/multi-server ./server
+  - docker build -t ryan/multi-worker ./worker
+  # Login to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push ryan/multi-client
+  - docker push ryan/multi-nginx
+  - docker push ryan/multi-server
+  - docker push ryan/multi-worker
