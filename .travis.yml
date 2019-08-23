@@ -21,3 +21,17 @@ after_success:
   - docker push ryan1007/multi-nginx
   - docker push ryan1007/multi-server
   - docker push ryan1007/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: ap-northeast-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-ap-northeast-1-590421022552
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id:
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
