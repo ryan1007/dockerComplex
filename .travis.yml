@@ -4,20 +4,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t ryan/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t ryan1007/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=True ryan/react-test npm test
+  - docker run -e CI=True ryan1007/react-test npm test
 
 after_success:
-  - docker build -t ryan/multi-client ./client
-  - docker build -t ryan/multi-nginx ./nginx
-  - docker build -t ryan/multi-server ./server
-  - docker build -t ryan/multi-worker ./worker
+  - docker build -t ryan1007/multi-client ./client
+  - docker build -t ryan1007/multi-nginx ./nginx
+  - docker build -t ryan1007/multi-server ./server
+  - docker build -t ryan1007/multi-worker ./worker
   # Login to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push ryan/multi-client
-  - docker push ryan/multi-nginx
-  - docker push ryan/multi-server
-  - docker push ryan/multi-worker
+  - docker push ryan1007/multi-client
+  - docker push ryan1007/multi-nginx
+  - docker push ryan1007/multi-server
+  - docker push ryan1007/multi-worker
